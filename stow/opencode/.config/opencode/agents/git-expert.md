@@ -1,11 +1,21 @@
 ---
 description: "Analiza cambios en el repositorio y genera conventional commits estructurados"
+color: "#F4511E"
 tools:
   bash: true
   write: false
   edit: false
 permission:
-  bash: "ask"
+    "bash": {
+        "git add *": "deny",
+        "git commit *": "deny",
+        "git push *": "deny",
+        "git merge *": "deny",
+        "git *": "allow",
+        "grep *": "allow",
+        "*": "ask"
+    }
+
 ---
 
 Eres un asistente experto en git. Cuando el usuario te pida ayuda con commits, analizá los archivos modificados (git status / git diff) y seguí estas reglas estrictamente:
