@@ -1,6 +1,7 @@
 xf86-video-amdgpu
 mesa
 libva-utils
+alsa-utils
 pipewire
 pipewire-pulse
 pipewire-alsa
@@ -15,6 +16,7 @@ zsh
 zsh-autosuggestions
 zsh-history-substring-search
 zsh-syntax-highlighting
+zsh-completions
 fd
 eza
 ripgrep
@@ -67,3 +69,10 @@ ark
 bluez
 bluez-utils
 bluedevil
+docker
+docker-compose
+obsidian
+opencode
+yazi
+tree-sitter-cli
+git-delta
