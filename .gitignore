@@ -14,3 +14,4 @@
 # External repos clonados dentro de stow/
 stow/nvim/
 stow/wallpapers/
+__pycache__
