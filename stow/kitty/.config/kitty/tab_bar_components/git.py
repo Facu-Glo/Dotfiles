@@ -6,7 +6,7 @@ from kitty.tab_bar import TabAccessor
 
 from .base import RightComponent
 
-def _get_git_changes(cwd: str) -> list[tuple[str, int]]:
+def _get_git_changes(cwd: str, default_bg: int) -> list[tuple[str, int, int]]:
     try:
         result = subprocess.run(
             ["git", "rev-parse", "--is-inside-work-tree"],
@@ -51,13 +51,13 @@ def _get_git_changes(cwd: str) -> list[tuple[str, int]]:
 
         result_list = []
         if staged > 0:
-            result_list.append((f" {staged}", 0x96E364))
+            result_list.append((f" {staged}", 0x96E364, default_bg))
         if modified > 0:
-            result_list.append((f" {modified}", 0xE3B419))
+            result_list.append((f" {modified}", 0xE3B419, default_bg))
         if deleted > 0:
-            result_list.append((f" {deleted}", 0xE33C19))
+            result_list.append((f" {deleted}", 0xE33C19, default_bg))
         if untracked > 0:
-            result_list.append((f" {untracked}", 0xD795F4))
+            result_list.append((f" {untracked}", 0xD795F4, default_bg))
 
         return result_list
 
@@ -66,8 +66,8 @@ def _get_git_changes(cwd: str) -> list[tuple[str, int]]:
 
 
 class GitComponent(RightComponent):
-    def render(self, draw_data) -> list[tuple[str, int]]:
+    def render(self, draw_data) -> list[tuple[str, int, int]]:
         active_id = get_boss().active_tab.id
         active_tab = TabAccessor(active_id)
         cwd = active_tab.active_oldest_wd or ""
-        return _get_git_changes(cwd)
+        return _get_git_changes(cwd, int(draw_data.default_bg))

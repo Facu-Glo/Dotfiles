@@ -41,11 +41,11 @@ def draw_tab(
             segments.extend(comp.render(draw_data))
 
         if segments:
-            total = sum(len(t) for t, _ in segments) + len(segments) - 1
+            total = sum(len(t) for t, _, _ in segments) + len(segments) - 1
             screen.cursor.x = max(0, screen.columns - total - 1)
-            screen.cursor.bg = as_rgb(int(draw_data.default_bg))
-            for text, color in segments:
-                screen.cursor.fg = as_rgb(color)
+            for text, fg, bg in segments:
+                screen.cursor.fg = as_rgb(fg)
+                screen.cursor.bg = as_rgb(bg)
                 screen.draw(text + " ")
 
     return screen.cursor.x
