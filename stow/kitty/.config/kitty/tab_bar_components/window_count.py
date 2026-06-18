@@ -3,8 +3,8 @@ from kitty.boss import get_boss
 
 from .base import RightComponent
 
-FG_COLOR = 0x77A0F2
-BOLD = False
+FG_COLOR = 0xbb9af6
+BOLD = True
 
 
 class WindowCountComponent(RightComponent):
@@ -15,5 +15,5 @@ class WindowCountComponent(RightComponent):
         num_windows = len(getattr(active_tab, 'windows', []))
         if num_windows > 1:
             bg = int(draw_data.default_bg)
-            return [(f" {num_windows}", FG_COLOR, bg, BOLD)]
+            return [(f"  {num_windows}", FG_COLOR, bg, BOLD)]
         return []

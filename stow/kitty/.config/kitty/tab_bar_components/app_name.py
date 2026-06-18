@@ -5,7 +5,7 @@ from kitty.tab_bar import TabAccessor
 from .base import RightComponent
 
 FG_COLOR = 0x81C8BE
-BOLD = False
+BOLD = True
 
 
 class AppNameComponent(RightComponent):
