@@ -1,15 +1,20 @@
-# pyright: reportMissingImports=false
+# pyright: reportMissingImports=false, reportGeneralTypeIssues=false, reportCallIssue=false, reportAttributeAccessIssue=false, reportUnusedVariable=false
 import subprocess
 from kitty.boss import get_boss
 from kitty.fast_data_types import Screen
-from kitty.tab_bar import (
-    DrawData,
-    ExtraData,
-    TabBarData,
-    TabAccessor,
-    as_rgb,
-    draw_tab_with_separator,
+from kitty.tab_bar import (  # type: ignore
+    DrawData,  # type: ignore
+    ExtraData,  # type: ignore
+    TabBarData,  # type: ignore
+    TabAccessor,  # type: ignore
+    as_rgb,  # type: ignore
+    draw_tab_with_separator,  # type: ignore
 )
+
+# -------------------------
+# Config
+# -------------------------
+SHOW_GIT = False
 
 # -------------------------
 # Git: contar cambios
@@ -40,10 +45,10 @@ def get_git_changes(cwd: str) -> list[tuple[str, int]]:
         if not lines:
             return []
 
-        staged     = sum(1 for l in lines if l[0] not in " ?")
-        modified   = sum((l[0] == "M") + (l[1] == "M") for l in lines if not l.startswith("??"))
-        deleted    = sum((l[0] == "D") + (l[1] == "D") for l in lines if not l.startswith("??"))
-        untracked  = sum(1 for l in lines if l.startswith("??"))
+        staged     = sum(1 for line in lines if line[0] not in " ?")
+        modified   = sum((line[0] == "M") + (line[1] == "M") for line in lines if not line.startswith("??"))
+        deleted    = sum((line[0] == "D") + (line[1] == "D") for line in lines if not line.startswith("??"))
+        untracked  = sum(1 for line in lines if line.startswith("??"))
 
         result_list = []
         if staged > 0:
@@ -73,39 +78,6 @@ def _draw_left_status(
     is_last: bool,
     extra_data: ExtraData,
 ) -> int:
-    active_id = get_boss().active_tab.id
-    active_tab = TabAccessor(active_id)
-
-    old_fg = screen.cursor.fg
-    old_bg = screen.cursor.bg
-
-    # Ícono en la primera tab
-    if index == 1:
-        title = active_tab.active_oldest_exe
-        screen.cursor.italic = False
-        screen.cursor.bold = True
-        screen.cursor.fg = as_rgb(0x81C8BE)
-        screen.cursor.bg = as_rgb(int(draw_data.inactive_bg))
-        # screen.cursor.bg = as_rgb(0x232634)
-        # cell = " "
-        # cell = f"  {title}"
-        cell = f"  {title}"
-        screen.draw(cell)
-
-    # Separador izquierdo
-    if tab.is_active:
-        screen.cursor.fg = as_rgb(int(draw_data.active_bg))
-        screen.cursor.bg = as_rgb(int(draw_data.inactive_bg))
-        screen.draw(" ▐█")
-    elif extra_data.prev_tab is None or extra_data.prev_tab.tab_id != active_id:
-        screen.cursor.bg = as_rgb(int(draw_data.inactive_bg))
-        screen.cursor.fg = as_rgb(0x626880)
-        screen.draw(" │ ")
-
-    screen.cursor.fg = old_fg
-    screen.cursor.bg = old_bg
-
-    # Título
     return draw_tab_with_separator(
         draw_data,
         screen,
@@ -129,30 +101,32 @@ def _draw_right_status(
     active_id = get_boss().active_tab.id
     active_tab = TabAccessor(active_id)
 
-    # Separador derecho
-    if tab.is_active:
-        screen.cursor.fg = as_rgb(int(draw_data.active_bg))
-        if not is_last:
-            bg_color = int(draw_data.inactive_bg)
-        else:
-            bg_color = int(draw_data.default_bg)
-        screen.cursor.bg = as_rgb(bg_color)
-        screen.draw("█▌ ")
-    elif is_last:
-        screen.cursor.fg = as_rgb(int(draw_data.inactive_bg))
-        screen.cursor.bg = as_rgb(int(draw_data.default_bg))
-        screen.draw("█▌ ")
-
-    # Git status solo en la última tab
+    # Indicadores de la derecha (app name + keyboard mode)
     if is_last:
-        cwd = active_tab.active_oldest_wd or ""
-        changes = get_git_changes(cwd)
-        if changes:
-            git_text = " ".join([t[0] for t in changes])
-            screen.cursor.x = max(0, screen.columns - len(git_text) - 1)
-            for text, color in changes:
+        right_parts = []
+
+        # Keyboard mode indicator
+        mode = get_boss().mappings.current_keyboard_mode_name
+        if mode:
+            right_parts.append((f" {mode.upper()} ", 0x81C8BE))
+
+        # App name
+        title = active_tab.active_oldest_exe
+        if title:
+            right_parts.append((f"  {title}", 0x81C8BE))
+
+        # Git status
+        if SHOW_GIT:
+            cwd = active_tab.active_oldest_wd or ""
+            for text, color in get_git_changes(cwd):
+                right_parts.append((text, color))
+
+        if right_parts:
+            total = sum(len(t) for t, _ in right_parts) + len(right_parts) - 1
+            screen.cursor.x = max(0, screen.columns - total - 1)
+            screen.cursor.bg = as_rgb(int(draw_data.default_bg))
+            for text, color in right_parts:
                 screen.cursor.fg = as_rgb(color)
-                screen.cursor.bg = as_rgb(int(draw_data.default_bg))
                 screen.draw(text + " ")
 
     return screen.cursor.x
