@@ -19,7 +19,5 @@ class LeftComponent:
 
 
 class RightComponent:
-    def render(
-        self, draw_data: DrawData
-    ) -> list[tuple[str, int, int]]:
+    def render(self, draw_data: DrawData) -> list[tuple[str, int, int, bool]]:
         return []

@@ -1,4 +1,4 @@
-# pyright: reportMissingImports=false, reportGeneralTypeIssues=false, reportCallIssue=false, reportAttributeAccessIssue=false, reportUnusedVariable=false
+# pyright: reportMissingImports=false, reportGeneralTypeIssues=false, reportCallIssue=false, reportAttributeAccessIssue=false, reportUnusedVariable=false, reportArgumentType=false
 import os
 import sys
 from kitty.fast_data_types import Screen
@@ -31,8 +31,14 @@ def draw_tab(
 ) -> int:
     for comp in LEFT_COMPONENTS:
         comp.draw(
-            draw_data, screen, tab, before, max_title_length,
-            index, is_last, extra_data,
+            draw_data,
+            screen,
+            tab,
+            before,
+            max_title_length,
+            index,
+            is_last,
+            extra_data,
         )
 
     if is_last:
@@ -41,9 +47,10 @@ def draw_tab(
             segments.extend(comp.render(draw_data))
 
         if segments:
-            total = sum(len(t) for t, _, _ in segments) + len(segments) - 1
+            total = sum(len(t) for t, _, _, _ in segments) + len(segments) - 1
             screen.cursor.x = max(0, screen.columns - total - 1)
-            for text, fg, bg in segments:
+            for text, fg, bg, bold in segments:
+                screen.cursor.bold = bold
                 screen.cursor.fg = as_rgb(fg)
                 screen.cursor.bg = as_rgb(bg)
                 screen.draw(text + " ")

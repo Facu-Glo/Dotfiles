@@ -6,7 +6,9 @@ from kitty.tab_bar import TabAccessor
 
 from .base import RightComponent
 
-def _get_git_changes(cwd: str, default_bg: int) -> list[tuple[str, int, int]]:
+BOLD = False
+
+def _get_git_changes(cwd: str, default_bg: int) -> list[tuple[str, int, int, bool]]:
     try:
         result = subprocess.run(
             ["git", "rev-parse", "--is-inside-work-tree"],
@@ -29,9 +31,7 @@ def _get_git_changes(cwd: str, default_bg: int) -> list[tuple[str, int, int]]:
             return []
 
         lines = [
-            line.rstrip("\n")
-            for line in status_result.stdout.splitlines()
-            if line
+            line.rstrip("\n") for line in status_result.stdout.splitlines() if line
         ]
         if not lines:
             return []
@@ -51,13 +51,13 @@ def _get_git_changes(cwd: str, default_bg: int) -> list[tuple[str, int, int]]:
 
         result_list = []
         if staged > 0:
-            result_list.append((f" {staged}", 0x96E364, default_bg))
+            result_list.append((f" {staged}", 0x96E364, default_bg, BOLD))
         if modified > 0:
-            result_list.append((f" {modified}", 0xE3B419, default_bg))
+            result_list.append((f" {modified}", 0xE3B419, default_bg, BOLD))
         if deleted > 0:
-            result_list.append((f" {deleted}", 0xE33C19, default_bg))
+            result_list.append((f" {deleted}", 0xE33C19, default_bg, BOLD))
         if untracked > 0:
-            result_list.append((f" {untracked}", 0xD795F4, default_bg))
+            result_list.append((f" {untracked}", 0xD795F4, default_bg, BOLD))
 
         return result_list
 
@@ -66,7 +66,7 @@ def _get_git_changes(cwd: str, default_bg: int) -> list[tuple[str, int, int]]:
 
 
 class GitComponent(RightComponent):
-    def render(self, draw_data) -> list[tuple[str, int, int]]:
+    def render(self, draw_data) -> list[tuple[str, int, int,bool]]:
         active_id = get_boss().active_tab.id
         active_tab = TabAccessor(active_id)
         cwd = active_tab.active_oldest_wd or ""

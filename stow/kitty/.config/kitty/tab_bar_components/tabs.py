@@ -17,6 +17,12 @@ class TabsComponent(LeftComponent):
         extra_data: ExtraData,
     ) -> int:
         return draw_tab_with_separator(
-            draw_data, screen, tab, before, max_title_length,
-            index, is_last, extra_data,
+            draw_data,
+            screen,
+            tab,
+            before,
+            max_title_length,
+            index,
+            is_last,
+            extra_data,
         )
