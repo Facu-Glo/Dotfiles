@@ -7,13 +7,13 @@ tools:
   edit: false
 permission:
     "bash": {
+        "*": "ask",
+        "grep *": "allow",
+        "git *": "allow",
         "git add *": "deny",
         "git commit *": "deny",
         "git push *": "deny",
         "git merge *": "deny",
-        "git *": "allow",
-        "grep *": "allow",
-        "*": "ask"
     }
 
 ---
