@@ -3,8 +3,10 @@ from kitty.boss import get_boss
 
 from .base import RightComponent
 
-FG_COLOR = 0x77A0F2
-BOLD = True
+MODE_COLORS = {
+    "wm": (0x77A0F2, True),
+    "copy-mode": (0xBB9AF7, True),
+}
 
 
 class KeyboardModeComponent(RightComponent):
@@ -12,5 +14,6 @@ class KeyboardModeComponent(RightComponent):
         mode = get_boss().mappings.current_keyboard_mode_name
         bg = int(draw_data.default_bg)
         if mode:
-            return [(f" {mode.upper()}", FG_COLOR, bg, BOLD)]
+            fg, bold = MODE_COLORS.get(mode, (0xFFFFFF, True))
+            return [(f" {mode.upper()}", fg, bg, bold)]
         return []
