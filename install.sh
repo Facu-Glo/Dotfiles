@@ -68,6 +68,19 @@ for app in */; do
     stow -R -t "$HOME" "$app_name"
 done
 
+# ─────────────────────────────────────────────
+# 6. Instalar plugins de Yazi
+# ─────────────────────────────────────────────
+echo "========================================"
+echo "  Instalando plugins de Yazi..."
+echo "========================================"
+if command -v ya &> /dev/null; then
+    ya pkg add yazi-rs/plugins:full-border
+    ya pkg add Rolv-Apneseth/starship
+else
+    echo "  ⚠ ya (yazi) no está instalado. Saltando plugins."
+fi
+
 echo ""
 echo "========================================"
 echo "✅ Instalación completada."
