@@ -14,4 +14,9 @@
 # External repos clonados dentro de stow/
 stow/nvim/
 stow/wallpapers/
+
+# Plugins de yazi (se instalan via ya pkg add)
+stow/yazi/.config/yazi/plugins/
+stow/yazi/.config/yazi/package.toml
+
 __pycache__
