@@ -1,4 +1,4 @@
-from kittens.tui.handler import result_handler
+from kittens.tui.handler import result_handler # type: ignore
 
 RESIZE_STEP = 1
 
