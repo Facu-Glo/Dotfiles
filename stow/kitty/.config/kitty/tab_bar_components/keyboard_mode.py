@@ -5,7 +5,7 @@ from .base import RightComponent
 
 MODE_COLORS = {
     "wm": (0x77A0F2, True),
-    "copy-mode": (0xBB9AF7, True),
+    "vim-mode": (0xBB9AF7, True),
 }
 
 
