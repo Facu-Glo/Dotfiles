@@ -14,6 +14,7 @@
 # External repos clonados dentro de stow/
 stow/nvim/
 stow/wallpapers/
+stow/fzf-tab/
 
 # Plugins de yazi (se instalan via ya pkg add)
 stow/yazi/.config/yazi/plugins/
