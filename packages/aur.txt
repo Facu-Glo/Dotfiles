@@ -1,2 +1,2 @@
 slack-desktop-wayland
-brave-bin
+helium-browser-bin
