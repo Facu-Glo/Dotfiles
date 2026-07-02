@@ -46,8 +46,6 @@ ttf-jetbrains-mono-nerd
 noto-fonts-emoji
 noto-fonts-cjk
 ttf-hack
-pdflatex
-libxcrypt-compat
 ufw
 zathura
 zathura-pdf-mupdf
