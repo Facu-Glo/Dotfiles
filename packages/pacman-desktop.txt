@@ -1,0 +1,13 @@
+plasma-desktop
+sddm
+sddm-kcm
+plasma-nm
+plasma-pa
+powerdevil
+kscreen
+dolphin
+kcalc
+spectacle
+gwenview
+bluedevil
+plasma-firewall

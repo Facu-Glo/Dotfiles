@@ -19,7 +19,7 @@ sudo pacman -Syu --noconfirm
 echo "========================================"
 echo "  Instalando paquetes pacman..."
 echo "========================================"
-sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/packages/pacman.txt"
+sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/packages/pacman-utils.txt"
 
 echo "========================================"
 echo "  Instalando yay..."
@@ -36,9 +36,18 @@ echo "========================================"
 yay -S --needed --noconfirm - < "$DOTFILES_DIR/packages/aur.txt"
 
 echo "========================================"
-echo "  Habilitando servicios..."
+echo "  Creando directorios XDG..."
 echo "========================================"
 xdg-user-dirs-update --force
+
+echo "========================================"
+echo "  Instalando paquetes de escritorio..."
+echo "========================================"
+sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/packages/pacman-desktop.txt"
+
+echo "========================================"
+echo "  Habilitando servicios..."
+echo "========================================"
 sudo systemctl enable bluetooth.service
 sudo systemctl enable sddm.service
 sudo systemctl enable tlp.service
