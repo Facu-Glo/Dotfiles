@@ -8,6 +8,7 @@ kscreen
 dolphin
 kcalc
 spectacle
+kwrite
 gwenview
 bluedevil
 plasma-firewall
