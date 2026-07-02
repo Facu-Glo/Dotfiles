@@ -1,3 +1,4 @@
 # nombre	url						destino en stow/
 nvim		https://github.com/Facu-Glo/nvim-configuracion.git		stow/nvim/.config/nvim
 wallpapers	https://github.com/Facu-Glo/Fondos-Pantalla.git			stow/wallpapers/Imágenes/Wallpapers
+fzf-tab		https://github.com/Aloxaf/fzf-tab.git				stow/fzf-tab/.config/fzf-tab
