@@ -14,4 +14,6 @@ def handle_result(args, result, target_window_id, boss):
         boss.call_remote_control(None, ("launch", "--location=hsplit", "--cwd=current"))
     elif action == "close":
         boss.call_remote_control(None, ("close-window",))
+    elif action == "close_other":
+        boss.call_remote_control(None, ("close-window", "--match", "not state:focused"))
     boss.pop_keyboard_mode()
