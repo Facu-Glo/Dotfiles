@@ -289,6 +289,7 @@ activate task manager entry 8=Meta+8,Meta+8,Activar la entrada 8 del gestor de t
 activate task manager entry 9=Meta+9,Meta+9,Activar la entrada 9 del gestor de tareas
 activate widget 39=Meta+M,none,Activar el elemento gráfico Reloj digital
 activate widget 43=none,none,Activar el elemento gráfico Reloj digital
+activate widget 46=Meta+Shift+M,none,Activar el elemento gráfico Reproductor multimedia
 activate widget 50=none,none,Activar el elemento gráfico Lanzador de aplicaciones
 clear history=none,none,Borrar el historial de notificaciones
 clear-history=none,none,Borrar historial del portapapeles
