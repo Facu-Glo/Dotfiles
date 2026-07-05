@@ -135,6 +135,8 @@ alias sddm-preview='sddm-greeter-qt6 --test-mode --theme'
 alias ghme='gh api user --jq ".html_url" | xargs xdg-open'
 alias repo='gh repo view --web'
 
+alias clear="printf '\033[2J\033[3J\033[1;1H'"
+
 # ╔══════════════════════════════════════════════════════════════════╗
 # ║                         FZF SETUP                                ║
 # ╚══════════════════════════════════════════════════════════════════╝
