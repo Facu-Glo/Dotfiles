@@ -1,7 +1,0 @@
-# Repositorios externos - Referencia
-# La clonación se realiza con clone-repos.sh
-
-# nombre		url						destino
-nvim			https://github.com/Facu-Glo/nvim-configuracion.git		~/.config/nvim
-wallpapers		https://github.com/Facu-Glo/Fondos-Pantalla.git			~/Imágenes/Wallpapers
-fzf-tab			https://github.com/Aloxaf/fzf-tab.git				~/.config/fzf-tab
