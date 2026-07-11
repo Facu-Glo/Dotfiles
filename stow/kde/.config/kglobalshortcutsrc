@@ -320,7 +320,3 @@ _launch=none
 
 [services][kitty.desktop]
 _launch=Meta+Return
-
-[services][org.kde.spectacle.desktop]
-CurrentMonitorScreenShot=none
-OpenWithoutScreenshot=none
