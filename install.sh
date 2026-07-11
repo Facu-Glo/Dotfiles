@@ -13,25 +13,7 @@ echo "========================================"
 "$DOTFILES_DIR/bootstrap.sh"
 
 # ─────────────────────────────────────────────
-# 2. Clonar repositorios externos
-# ─────────────────────────────────────────────
-echo "========================================"
-echo "  Clonando repositorios externos..."
-echo "========================================"
-while IFS=$'\t' read -r name repo dest; do
-    [[ -z "$name" || "$name" =~ ^# ]] && continue
-    target="$DOTFILES_DIR/$dest"
-    if [ ! -d "$target" ]; then
-        echo "  → $name"
-        mkdir -p "$(dirname "$target")"
-        git clone "$repo" "$target"
-    else
-        echo "  ✓ $name ya existe"
-    fi
-done < "$DOTFILES_DIR/external/repos.txt"
-
-# ─────────────────────────────────────────────
-# 3. Configurar GRUB + tema Vimix
+# 2. Configurar GRUB + tema Vimix
 # ─────────────────────────────────────────────
 echo "========================================"
 echo "  Configurando GRUB..."
@@ -46,7 +28,7 @@ else
 fi
 
 # ─────────────────────────────────────────────
-# 4. Instalar findgit
+# 3. Instalar findgit
 # ─────────────────────────────────────────────
 echo "========================================"
 echo "  Instalando findgit..."
@@ -56,7 +38,7 @@ cp "$DOTFILES_DIR/system/findgit/findgit" "$HOME/.local/bin/"
 chmod +x "$HOME/.local/bin/findgit"
 
 # ─────────────────────────────────────────────
-# 5. Stow (symlinks por app)
+# 4. Stow (symlinks por app)
 # ─────────────────────────────────────────────
 echo "========================================"
 echo "  Vinculando configuraciones con Stow..."
@@ -69,7 +51,7 @@ for app in */; do
 done
 
 # ─────────────────────────────────────────────
-# 6. Instalar plugins de Yazi
+# 5. Instalar plugins de Yazi
 # ─────────────────────────────────────────────
 echo "========================================"
 echo "  Instalando plugins de Yazi..."
