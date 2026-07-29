@@ -21,3 +21,5 @@ stow/yazi/.config/yazi/plugins/
 stow/yazi/.config/yazi/package.toml
 
 __pycache__
+
+.directory
