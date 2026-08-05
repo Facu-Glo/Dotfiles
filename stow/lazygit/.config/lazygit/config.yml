@@ -39,6 +39,6 @@ gui:
     defaultFgColor:
       - default
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta -s --dark --paging=never --24-bit-color=never
+      command: delta -s --dark --paging=never --24-bit-color=never
