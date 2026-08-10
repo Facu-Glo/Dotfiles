@@ -15,8 +15,8 @@ from tab_bar_components.window_count import WindowCountComponent
 LEFT_COMPONENTS = [TabsComponent()]
 RIGHT_COMPONENTS = [
     KeyboardModeComponent(),
-    WindowCountComponent(),
     AppNameComponent(),
+    WindowCountComponent(),
     # GitComponent(),
 ]
 

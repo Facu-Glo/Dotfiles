@@ -13,7 +13,7 @@ class WindowCountComponent(RightComponent):
         if active_tab is None:
             return []
         num_windows = len(getattr(active_tab, 'windows', []))
-        if num_windows > 1:
+        if num_windows >= 1:
             bg = int(draw_data.default_bg)
-            return [(f"  {num_windows}", FG_COLOR, bg, BOLD)]
+            return [(f"  {num_windows}", FG_COLOR, bg, BOLD)]
         return []
