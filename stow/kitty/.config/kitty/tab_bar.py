@@ -31,17 +31,19 @@ def draw_tab(
     is_last: bool,
     extra_data: ExtraData,
 ) -> int:
-    for comp in LEFT_COMPONENTS:
-        comp.draw(
-            draw_data,
-            screen,
-            tab,
-            before,
-            max_title_length,
-            index,
-            is_last,
-            extra_data,
-        )
+    single_tab = extra_data.prev_tab is None and extra_data.next_tab is None
+    if not single_tab:
+        for comp in LEFT_COMPONENTS:
+            comp.draw(
+                draw_data,
+                screen,
+                tab,
+                before,
+                max_title_length,
+                index,
+                is_last,
+                extra_data,
+            )
 
     if is_last:
         segments = []
