@@ -47,14 +47,23 @@
             "keyColor": "green"
         },
         {
+            "type": "wm",
+            "key": "  󱗃 WM",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "de",
+            "key": "  DE",
+            "keyColor": "yellow"
+        },
+        {
             "type": "terminal",
             "key": "   Terminal",
             "keyColor": "yellow"
         },
         {
-            "type": "wm",
-            "key": "  󱗃 WM",
-            "format": "{2}",
+            "type": "terminalfont",
+            "key": "   Terminal Font",
             "keyColor": "yellow"
         },
         {
