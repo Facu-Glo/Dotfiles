@@ -22,6 +22,15 @@ local function get_last_non_empty_line()
     return total
 end
 
+local hostname = (vim.uv or vim.loop).os_gethostname()
+local prompt_pattern = string.format([[^\s*[a-zA-Z0-9_.-]\+@%s]], vim.fn.escape(hostname, [[^$.*~[]\]]))
+local function jump_prompt(flags)
+    vim.fn.search(prompt_pattern, flags .. "W")
+end
+
+vim.keymap.set({ "n", "v" }, "<C-k>", function() jump_prompt("b") end, { desc = "Prompt anterior", silent = true })
+vim.keymap.set({ "n", "v" }, "<C-j>", function() jump_prompt("") end, { desc = "Prompt siguiente", silent = true })
+
 vim.keymap.set({ "n", "v" }, "G", function()
     local target = get_last_non_empty_line()
     vim.cmd(tostring(target))
