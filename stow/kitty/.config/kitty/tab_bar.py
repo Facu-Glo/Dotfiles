@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from tab_bar_components.tabs import TabsComponent
 from tab_bar_components.keyboard_mode import KeyboardModeComponent
+from tab_bar_components.pager_mode import PagerModeComponent
 from tab_bar_components.app_name import AppNameComponent
 from tab_bar_components.window_count import WindowCountComponent
 # from tab_bar_components.git import GitComponent
@@ -15,6 +16,7 @@ from tab_bar_components.window_count import WindowCountComponent
 LEFT_COMPONENTS = [TabsComponent()]
 RIGHT_COMPONENTS = [
     KeyboardModeComponent(),
+    PagerModeComponent(),
     AppNameComponent(),
     WindowCountComponent(),
     # GitComponent(),

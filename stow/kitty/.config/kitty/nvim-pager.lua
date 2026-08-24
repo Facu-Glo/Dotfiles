@@ -60,4 +60,5 @@ vim.keymap.set("v", "q", "<Esc>:qa!<CR>", { silent = true })
 vim.keymap.set("v", "y", '"+y:qa!<CR>', { silent = true })
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { silent = true })
+vim.keymap.set("t", "M-e", [[<C-\><C-n>]], { silent = true })
 vim.keymap.set("t", "q", [[<C-\><C-n>:qa!<CR>]], { silent = true })
