@@ -27,7 +27,7 @@ vim.keymap.set({ "n", "v" }, "G", function()
     vim.cmd(tostring(target))
 end, { desc = "Ir a la última línea con texto (prompt)", silent = true })
 
-vim.keymap.set("n", "<leader>r", function()
+vim.keymap.set({ "n", "v" }, "<leader>r", function()
     if vim.wo.relativenumber then
         vim.wo.relativenumber = false
         vim.wo.number = false
@@ -37,7 +37,7 @@ vim.keymap.set("n", "<leader>r", function()
     end
 end, { desc = "Toggle relative line numbers" })
 
-vim.keymap.set("n", "<leader>n", function()
+vim.keymap.set({ "n", "v" }, "<leader>n", function()
     if vim.wo.number and not vim.wo.relativenumber then
         vim.wo.number = false
     else
