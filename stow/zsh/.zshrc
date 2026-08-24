@@ -17,9 +17,6 @@ compinit
 
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bg=green,fg=black,bold"
 
-# Vi Mode
-bindkey -v
-
 # ╔══════════════════════════════════════════════════════════════════╗
 # ║                          PLUGINS                                 ║
 # ╚══════════════════════════════════════════════════════════════════╝
@@ -256,15 +253,6 @@ grs-widget() {
         zle reset-prompt
     fi
 }
-# Cursor
-function zle-line-init zle-keymap-select {
-  if [[ $KEYMAP == vicmd ]] ; then
-    echo -ne '\e[2 q\e]12;green\x7'
-  else
-    echo -ne '\e[1 q\e]12;#636363\x7'
-  fi
-  zle reset-prompt
-}
 
 o() {
     xdg-open "$@" &> /dev/null &|
@@ -282,8 +270,6 @@ zle -N history-substring-search-down
 zle -N findgit-widget
 zle -N grs-widget
 zle -N fzf-facultad-widget
-zle -N zle-keymap-select
-zle -N zle-line-init
 
 # ╔══════════════════════════════════════════════════════════════════╗
 # ║                        KEY BINDINGS                              ║
@@ -312,15 +298,7 @@ bindkey '^G' findgit-widget
 bindkey '^[g' grs-widget
 
 bindkey '^R' fzf-history-widget
-bindkey '^H' delete_last_path_component  
-
-bindkey -M viins '^U' backward-kill-line
-bindkey -M viins '^W' backward-kill-word
-bindkey -M viins '^A' beginning-of-line
-bindkey -M viins '^E' end-of-line
-bindkey -M viins '^L' clear-screen
-bindkey -M viins '^K' kill-line
-bindkey -M viins '^?' backward-delete-char
+bindkey '^H' delete_last_path_component
 
 bindkey '^F' fzf-facultad-widget
 # ╔══════════════════════════════════════════════════════════════════╗
