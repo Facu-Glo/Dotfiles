@@ -22,5 +22,5 @@ class PagerModeComponent(RightComponent):
         boss = get_boss()
         if _is_scrollback_pager(getattr(boss, "active_window", None)):
             bg = int(draw_data.default_bg)
-            return [(LABEL, FG_COLOR, bg, BOLD)]
+            return [(LABEL, bg, FG_COLOR, BOLD)]
         return []

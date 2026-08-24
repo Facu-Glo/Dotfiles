@@ -15,5 +15,6 @@ class KeyboardModeComponent(RightComponent):
         bg = int(draw_data.default_bg)
         if mode:
             fg, bold = MODE_COLORS.get(mode, (0xFFFFFF, True))
-            return [(f" {mode.upper()}", fg, bg, bold)]
+            bg = int(draw_data.default_bg)
+            return [(f" {mode.upper()}", bg, fg, bold)]
         return []
