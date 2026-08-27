@@ -387,7 +387,7 @@ vim.keymap.set({ "n", "v" }, "<leader>n", function() toggle_numbering("abs") end
 vim.keymap.set({ "n", "v" }, "q", ":qa!<CR>", { silent = true })
 vim.keymap.set("v", "y", '"+y:qa!<CR>', { silent = true })
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { silent = true })
-vim.keymap.set("t", "<M-e>", [[<C-\><C-n>]], { silent = true })
+vim.keymap.set({ "t", "n" }, "<M-e>", [[<C-\><C-n>]], { silent = true })
 vim.keymap.set("t", "q", [[<C-\><C-n>:qa!<CR>]], { silent = true })
 
 vim.keymap.set("n", "<leader>e", function()
