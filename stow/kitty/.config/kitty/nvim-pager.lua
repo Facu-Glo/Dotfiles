@@ -130,18 +130,24 @@ local function open_scratch(initial_lines)
     local buf = vim.api.nvim_create_buf(false, true)
     local h_buf = vim.api.nvim_create_buf(false, true)
     vim.bo[buf].buftype, vim.bo[h_buf].buftype = "nofile", "nofile"
-    vim.bo[buf].bufhidden, vim.bo[h_buf].bufhidden = "wipe", "wipe"
+    vim.bo[buf].bufhidden = "wipe"
+    vim.bo[h_buf].bufhidden = "hide"
     vim.bo[buf].filetype, vim.bo[h_buf].filetype = "sh", "sh"
 
     vim.bo[buf].completefunc = "v:lua.history_complete"
     _G.history_complete = function(findstart, base)
         if findstart == 1 then return 0 end
-        local matches, base_lower = {}, base:lower()
+        local matches = {}
         local max_len = math.floor(vim.o.columns * 0.40)
+
+        local escaped = base:lower():gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
+        local pattern = ".*" .. escaped:gsub(".", "%1.*")
 
         for i = 1, #history do
             local item = history[i]
-            if item:lower():find(base_lower, 1, true) then
+            local item_lower = item:lower()
+
+            if item_lower:match(pattern) then
                 matches[#matches + 1] = {
                     word = item,
                     abbr = #item > max_len and (item:sub(1, max_len - 3) .. "...") or item,
@@ -164,37 +170,26 @@ local function open_scratch(initial_lines)
         relative = "editor",
         row = row,
         col = start_col,
-        width = editor_width,
+        width = total_width,
         height = height,
         style = "minimal",
         border = "rounded",
         title = " Comando ",
         title_pos = "center",
-        footer = " <C-j>/<C-k>: Historial | <CR>: Pegar | <leader><CR>: Ejecutar ",
+        footer =
+        " <C-j>/<C-k>: Historial | <C-Space>: Autocompletado | <leader>h: Panel | <CR>: Pegar | <leader><CR>: Ejecutar ",
         footer_pos = "center",
     })
 
-    local h_win = vim.api.nvim_open_win(h_buf, false, {
-        relative = "editor",
-        row = row,
-        col = start_col + editor_width + 2,
-        width = hist_width,
-        height = height,
-        style = "minimal",
-        border = "rounded",
-        title = " Historial ",
-        title_pos = "center",
-        footer = string.format(" %d comandos ", #history),
-        footer_pos = "center",
-    })
-
-    vim.wo[win].number, vim.wo[h_win].number = false, false
-    vim.wo[win].relativenumber, vim.wo[h_win].relativenumber = false, false
-    vim.wo[win].signcolumn, vim.wo[h_win].signcolumn = "no", "no"
+    vim.wo[win].number = false
+    vim.wo[win].relativenumber = false
+    vim.wo[win].signcolumn = "no"
     vim.wo[win].winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder"
-    vim.wo[h_win].winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder"
-    vim.wo[win].wrap, vim.wo[h_win].wrap = true, false
-    vim.wo[h_win].cursorline = true
+    vim.wo[win].wrap = true
+
+    local hist_visible = false
+    local hist_width_saved = hist_width
+    local h_win = nil
 
     local display_history = {}
     for i = 1, #history do
@@ -208,10 +203,12 @@ local function open_scratch(initial_lines)
     local function update_hist_highlight()
         vim.api.nvim_buf_clear_namespace(h_buf, HIST_NS, 0, -1)
         if hist_idx > 0 and hist_idx <= #history then
-            vim.api.nvim_win_set_cursor(h_win, { hist_idx, 0 })
             vim.api.nvim_buf_set_extmark(h_buf, HIST_NS, hist_idx - 1, 0, {
                 line_hl_group = "HistActive",
             })
+            if hist_visible and h_win and vim.api.nvim_win_is_valid(h_win) then
+                vim.api.nvim_win_set_cursor(h_win, { hist_idx, 0 })
+            end
         end
     end
     update_hist_highlight()
@@ -233,7 +230,7 @@ local function open_scratch(initial_lines)
     end
 
     local function close_all()
-        if vim.api.nvim_win_is_valid(h_win) then vim.api.nvim_win_close(h_win, true) end
+        if h_win and vim.api.nvim_win_is_valid(h_win) then vim.api.nvim_win_close(h_win, true) end
         if vim.api.nvim_win_is_valid(win) then vim.api.nvim_win_close(win, true) end
     end
 
@@ -259,13 +256,80 @@ local function open_scratch(initial_lines)
         function() return vim.fn.pumvisible() == 1 and "<C-p>" or "<Cmd>lua _G.__scratch_nav(-1)<CR>" end,
         { buffer = buf, expr = true, silent = true })
 
+    local completion_active = false
+
+    vim.keymap.set("i", "<C-Space>", function()
+        completion_active = true
+        return "<C-x><C-u>"
+    end, { buffer = buf, expr = true, silent = true })
+    vim.keymap.set("i", "<C-@>", function()
+        completion_active = true
+        return "<C-x><C-u>"
+    end, { buffer = buf, expr = true, silent = true })
+
+    vim.api.nvim_create_autocmd("TextChangedI", {
+        buffer = buf,
+        callback = function()
+            if completion_active and vim.fn.pumvisible() == 0 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-x><C-u>", true, false, true), "n")
+            end
+        end,
+    })
+    vim.api.nvim_create_autocmd("InsertLeave", {
+        buffer = buf,
+        callback = function() completion_active = false end,
+    })
+
+    -- Toggle panel de historial
+    local function toggle_history()
+        if hist_visible and h_win then
+            vim.api.nvim_win_close(h_win, true)
+            vim.api.nvim_win_set_config(win, {
+                relative = "editor",
+                row = row,
+                col = start_col,
+                width = total_width,
+                height = height,
+            })
+            hist_visible = false
+        else
+            h_win = vim.api.nvim_open_win(h_buf, false, {
+                relative = "editor",
+                row = row,
+                col = start_col + editor_width + 2,
+                width = hist_width_saved,
+                height = height,
+                style = "minimal",
+                border = "rounded",
+                title = " Historial ",
+                title_pos = "center",
+                footer = string.format(" %d comandos ", #history),
+                footer_pos = "center",
+            })
+            vim.wo[h_win].cursorline = true
+            vim.wo[h_win].number = false
+            vim.wo[h_win].relativenumber = false
+            vim.wo[h_win].signcolumn = "no"
+            vim.wo[h_win].winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder"
+            vim.wo[h_win].wrap = false
+            update_hist_highlight()
+            vim.api.nvim_win_set_config(win, {
+                relative = "editor",
+                row = row,
+                col = start_col,
+                width = editor_width,
+                height = height,
+            })
+            hist_visible = true
+        end
+    end
+
+    vim.keymap.set("n", "<leader>h", toggle_history, { desc = "Toggle panel de historial" })
+
     vim.keymap.set("i", "<Tab>", function() return vim.fn.pumvisible() == 1 and "<C-n>" or "<Tab>" end,
         { buffer = buf, expr = true, silent = true })
     vim.keymap.set("i", "<S-Tab>", function() return vim.fn.pumvisible() == 1 and "<C-p>" or "<S-Tab>" end,
         { buffer = buf, expr = true, silent = true })
-    vim.keymap.set("i", "<C-Space>", "<C-x><C-u>", opts)
-    vim.keymap.set("i", "<C-@>", "<C-x><C-u>", opts)
-
     vim.keymap.set({ "n", "v" }, "<CR>", function() send_from_scratch(false) end, opts)
     vim.keymap.set({ "n", "v" }, "<leader><CR>", function() send_from_scratch(true) end, opts)
     vim.keymap.set("i", "<M-e>", "<Esc>", vim.tbl_extend("force", opts, { nowait = true }))
