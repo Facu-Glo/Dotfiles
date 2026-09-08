@@ -1,0 +1,138 @@
+/* --- PALETA TOKYO NIGHT --- */
+@define-color bg #1a1b26;
+@define-color fg #c0caf5;
+@define-color border #292e42;
+@define-color muted #565f89;
+
+@define-color cyan #7dcfff;
+@define-color blue #7aa2f7;
+@define-color magenta #bb9af7;
+@define-color green #9ece6a;
+@define-color yellow #e0af68;
+@define-color red #f7768e;
+
+* {
+    font-family: "Adwaita Sans", "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+    border-bottom: 1px solid @border;
+}
+
+/* --- WORKSPACES (IZQUIERDA) --- */
+#workspaces button {
+    padding: 0 6px;
+    color: @muted;
+    background-color: transparent;
+}
+
+#workspaces button.active {
+    color: @magenta;
+    font-size: 15px;
+}
+
+#workspaces button:hover {
+    background: transparent;
+    color: @cyan;
+}
+
+/* --- RELOJ (CENTRO) --- */
+#clock {
+    color: #e6e6e6;
+    font-weight: 700;
+    padding: 0 10px;
+}
+
+/* --- MÓDULOS DE LA DERECHA (BASE) --- */
+#tray,
+#power-profiles-daemon,
+#battery,
+#memory,
+#backlight,
+#wireplumber,
+#network {
+    padding: 0 8px;
+    color: @fg;
+}
+
+#tray {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Distinción sutil por módulo estilo Tokyo Night */
+#memory {
+    color: @blue;
+}
+
+#backlight {
+    color: @yellow;
+}
+
+#wireplumber {
+    color: @cyan;
+}
+
+#network {
+    color: @magenta;
+}
+
+/* --- PERFILES DE ENERGÍA (TLP-PD) --- */
+#power-profiles-daemon.performance {
+    color: @red;
+}
+
+#power-profiles-daemon.balanced {
+    color: @blue;
+}
+
+#power-profiles-daemon.power-saver {
+    color: @green;
+}
+
+/* --- BATERÍA Y ESTADOS --- */
+#battery {
+    color: @green;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @cyan;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* --- ESTADOS EXTRA --- */
+#wireplumber.muted {
+    color: @muted;
+}
+
+#network.disconnected {
+    color: @red;
+}
+
+/* --- ANIMACIÓN PARPADEO (CRÍTICO) --- */
+@keyframes blink {
+    to {
+        background-color: @red;
+        color: @bg;
+    }
+}

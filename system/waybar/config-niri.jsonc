@@ -1,0 +1,124 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 4,
+    "modules-left": [
+        "niri/workspaces",
+        "mpris"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "tray",
+        "memory",
+        "backlight",
+        "wireplumber",
+        "network",
+        "battery",
+        "power-profiles-daemon"
+    ],
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "󰮯",
+            "default": ""
+        }
+    },
+    "clock": {
+        // Estilo GNOME: "mar 8 sep 11:30"
+        "format": "{:L%a %d %b %H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "weeks-pos": "right",
+            "format": {
+                "months": "<span color='#ebdbb2'><b>{}</b></span>",
+                "days": "<span color='#a89984'><b>{}</b></span>",
+                "weeks": "<span color='#7699a3'><b>W{}</b></span>",
+                "weekdays": "<span color='#d79921'><b>{}</b></span>",
+                "today": "<span color='#cc241d'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    "memory": {
+        "interval": 3,
+        "format": "󰍛  {used:0.1f}G/{total:0.1f}G",
+        "tooltip-format": "RAM: {used:0.1f}GiB de {total:0.1f}GiB ({percentage}%)",
+        "on-click": "kitty -e htop"
+    },
+    "backlight": {
+        "scroll-step": 2,
+        "format": "{icon}  {percent}%",
+        "format-icons": [
+            "󰃞",
+            "󰃝",
+            "󰃟",
+            "󰃠"
+        ]
+    },
+    "wireplumber": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "󰝟  {volume}%",
+        "format-icons": [
+            "󰕿",
+            "󰖀",
+            "󰕾"
+        ],
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+    },
+    "network": {
+        "format-wifi": "󰤨  {signalStrength}%",
+        "format-ethernet": "󰈀  Conectado",
+        "format-disconnected": "󰤭  Sin red",
+        "tooltip-format": "{ifname} vía {gwaddr} 󰊗",
+        "tooltip-format-wifi": "SSID: {essid} ({signalStrength}%)\nIP: {ipaddr}"
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 8
+    },
+    "power-profiles-daemon": {
+        "format": "{icon} ",
+        "tooltip-format": "Power profile: {profile}",
+        "format-icons": {
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
+    },
+    "mpris": {
+        "format": "{artist} - {title}",
+        "tooltip-format": "{album}",
+        "format-paused": " {artist} - {title}",
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl previous",
+        "on-scroll-down": "playerctl next",
+        "max-length": 35
+    }
+}
