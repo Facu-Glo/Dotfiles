@@ -123,7 +123,7 @@ keymap = [
 	{ on = [ "g", "h" ],       run = "cd ~",                        desc = "Go home" },
 	{ on = [ "g", "c" ],       run = "cd ~/.config",                desc = "Go ~/.config" },
 	{ on = [ "g", "d" ],       run = "cd ~/Descargas",              desc = "Go ~/Descargas" },
-	{ on = [ "g", "f" ],       run = "cd ~/Escritorio/Facultad/",   desc = "Go ~/Escritorio/Facultad/" },
+	{ on = [ "g", "f" ],       run = "cd ~/Facultad/",              desc = "Go ~/Facultad/" },
 	{ on = [ "g", "p" ],       run = "cd ~/Proyectos",              desc = "Go ~/Proyectos" },
 	{ on = [ "g", "<Space>" ], run = "cd --interactive",            desc = "Jump interactively" },
 	{ on = [ "g", "." ],       run = "follow",                      desc = "Follow hovered symlink" },
