@@ -20,6 +20,8 @@ stow/fzf-tab/
 stow/yazi/.config/yazi/plugins/
 stow/yazi/.config/yazi/package.toml
 
+stow/opencode/.config/opencode/service.json
+stow/opencode/.config/opencode/cli.json
 __pycache__
 
 .directory
