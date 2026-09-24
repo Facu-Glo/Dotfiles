@@ -113,7 +113,6 @@ alias fl='y'
 
 # Editors
 alias nv='nvim'
-alias vim='nvim'
 alias nvim-def='NVIM_APPNAME=nvim-personal nvim'
 
 # Applications
@@ -316,3 +315,8 @@ eval "$(zoxide init zsh)"
 
 # eval "$(/usr/bin/mise activate zsh)"
 eval "$(mise activate zsh)"
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
+bindkey '^X^E' edit-command-line
