@@ -15,5 +15,15 @@ def handle_result(args, result, target_window_id, boss):
     elif action == "close":
         boss.call_remote_control(None, ("close-window",))
     elif action == "close_other":
-        boss.call_remote_control(None, ("close-window", "--match", "not state:focused"))
+        window = boss.window_id_map.get(target_window_id)
+        tab = window.tabref() if window is not None else boss.active_tab
+        if tab is not None:
+            keep_id = (
+                window.id
+                if window is not None
+                else getattr(tab.active_window, "id", -1)
+            )
+            for w in tuple(tab):
+                if w.id != keep_id:
+                    boss.mark_window_for_close(w)
     boss.pop_keyboard_mode()
