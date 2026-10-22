@@ -10,9 +10,9 @@ vim.opt.pumwidth = 25
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 vim.cmd([[
-  highlight Normal ctermbg=NONE guibg=NONE
-  highlight NonText ctermbg=NONE guibg=NONE
-  highlight LineNr ctermbg=NONE guibg=NONE
+  highlight Normal ctermbg=NONE guibg=NONE guifg=#b8bfe9
+  highlight NonText ctermbg=NONE guibg=NONE guifg=#6c7086
+  highlight LineNr ctermbg=NONE guibg=NONE guifg=#6c7086
   highlight NormalFloat ctermbg=NONE guibg=NONE
   highlight FloatBorder guifg=#89b4fa guibg=NONE
   highlight FloatTitle guifg=#cdd6f4 gui=bold guibg=NONE
